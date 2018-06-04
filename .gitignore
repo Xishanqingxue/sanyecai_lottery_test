@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+spike*.py
+result/
+log/
+.idea/

@@ -1,1 +1,1 @@
-# sanyecai_lottery_test
+吉刮彩自动化接口测试项目
