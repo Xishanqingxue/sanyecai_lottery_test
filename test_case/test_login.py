@@ -10,11 +10,11 @@ class TestLoginApi(BaseCase):
     登录
     """
     union_id = settings.TEST_UNION_ID
-    new_union_id = '8888'
+    new_union_id = 'dw_88888888'
 
-    # @classmethod
-    # def setUpClass(cls):
-    #     MysqlHelper().delete_user(union_id=cls.new_union_id)
+    @classmethod
+    def setUpClass(cls):
+        MysqlHelper().delete_user(union_id=cls.new_union_id)
 
     def test_login_success(self):
         """
@@ -91,10 +91,10 @@ class TestLoginApi(BaseCase):
         """
         测试首次登录数据库信息
         """
-        nickname = 'Auto_Test'
-        head_pic = '/pic/head_pic_0016.jpg'
+        nickname = '我是测试001'
+        head_pic = 'https://pic.dawang.tv/files/images/heads/2a/22/20170705213141666.jpeg'
         login_api = LoginApi()
-        login_api.login(unionID=self.new_union_id, source=2, nickname=nickname, head_pic=head_pic)
+        login_api.login(unionID=self.new_union_id, source=1, nickname=nickname, head_pic=head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')

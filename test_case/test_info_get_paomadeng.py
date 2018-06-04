@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from base_api.info_get_paomadeng_api import InfoGetPaomadeng
+from base_api.get_paomadeng_api import InfoGetPaomadeng
 from base.base_case import BaseCase
 
 # class TestInfoGetPaomadengApi(BaseCase):

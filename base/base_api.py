@@ -10,14 +10,10 @@ logger = BaseLogger(__name__).get_logger()
 class BaseApi(object):
     url = ''
     base_url = settings.API_TEST_BASE_URL
-    ajax = False
 
     def __init__(self):
         self.response = None
         self.headers = settings.API_HEADERS
-        if self.ajax:
-            # AJAX类型开关，True打开，False关闭
-            self.headers = settings.AJAX_HEADERS
 
     def api_url(self):
         """
@@ -34,7 +30,8 @@ class BaseApi(object):
         :return:
         """
         return {
-
+            'room_id':settings.DW_ROOM_ID,
+            'source':settings.DW_SOURCE_ID
         }
 
     def build_custom_param(self, data):
@@ -83,7 +80,7 @@ class BaseApi(object):
         request_data = self.format_param(data)
         logger.info('Data:{0}'.format(request_data))
         s = requests.session()
-        self.response = s.post(url=self.api_url(), params=request_data, headers=self.headers)
+        self.response = s.post(url=self.api_url(), data=request_data, headers=self.headers)
         logger.info('Headers:{0}'.format(self.response.request.headers))
         logger.info('Response:{0}'.format(self.response.text))
         return self.response

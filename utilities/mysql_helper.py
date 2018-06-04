@@ -1,7 +1,10 @@
 # -*- coding:utf-8 -*-
 import base.base_mysql as base_mysql
 from base.base_mysql import local_execute
-from base_api.my_single_lot_api import InfoMySingleLotApi
+from base.base_log import BaseLogger
+# from base_api.my_single_lot_api import InfoMySingleLotApi
+
+logger = BaseLogger(__name__).get_logger()
 
 class MysqlHelper(object):
 
@@ -26,21 +29,21 @@ class MysqlHelper(object):
             nickname.append(nick_name_one)
         return nickname
 
-    def delete_order_detail_use_order_id(self,union_id):
-        """
-        删除lot_order_detail中数据
-        :param union_id:
-        :return:
-        """
-        info_my_single = InfoMySingleLotApi(union_id)
-        info_my_single.get({'unionId': union_id, 'source': 1, 'detailStatus': None,
-                            'bonusStatus': None, 'page': 1, 'length': 20})
-        result = info_my_single.get_resp_result()
-        order_id = []
-        for i in range(len(result)):
-            order_id.append(result[i]['orderId'])
-        for i in order_id:
-            MysqlHelper().delete_order_details(i)
+    # def delete_order_detail_use_order_id(self,union_id):
+    #     """
+    #     删除lot_order_detail中数据
+    #     :param union_id:
+    #     :return:
+    #     """
+    #     info_my_single = InfoMySingleLotApi(union_id)
+    #     info_my_single.get({'unionId': union_id, 'source': 1, 'detailStatus': None,
+    #                         'bonusStatus': None, 'page': 1, 'length': 20})
+    #     result = info_my_single.get_resp_result()
+    #     order_id = []
+    #     for i in range(len(result)):
+    #         order_id.append(result[i]['orderId'])
+    #     for i in order_id:
+    #         MysqlHelper().delete_order_details(i)
 
     def get_user_details(self,union_id):
         """
@@ -57,9 +60,12 @@ class MysqlHelper(object):
         :param union_id:
         :return:
         """
-        user_id = base_mysql.execute('select id from lot_user_info where union_id=%s',params=(union_id))['id']
-        base_mysql.execute('delete from lot_user_info where union_id=%s',params=(union_id))
-        base_mysql.execute('delete from lot_account where user_id=%s',params=user_id)
+        try:
+            user_id = base_mysql.execute('select id from lot_user_info where union_id=%s',params=(union_id))['id']
+            base_mysql.execute('delete from lot_user_info where union_id=%s',params=(union_id))
+            base_mysql.execute('delete from lot_account where user_id=%s',params=user_id)
+        except:
+            logger.error('Delete user failed!')
 
     def get_sell_lottery_list(self,id):
         """

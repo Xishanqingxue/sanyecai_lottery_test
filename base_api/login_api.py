@@ -11,7 +11,7 @@ logger = BaseLogger(__name__).get_logger()
 
 class LoginApi(BaseApi):
     """
-    登录接口
+    登录接口/创建彩票用户
     """
     url = '/login'
 

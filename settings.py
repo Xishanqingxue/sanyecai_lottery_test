@@ -12,12 +12,10 @@ if os.path.exists(SETTING_LOCAL):
     with open(SETTING_LOCAL, 'r') as f:
         exec(f.read())
 
-API_TEST_BASE_URL = 'http://111.200.217.42:8386/video-lottery-base_api'
+API_TEST_BASE_URL = 'https://lottery.dwtv.tv'
 
 # 请求HEADERS配置
 API_HEADERS = {'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'}
-AJAX_HEADERS = {'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'X-Requested-With': 'XMLHttpRequest'}
 
 # 日志配置
 now_time = time.strftime("%Y_%m_%d_%H_%M_%S")
@@ -41,8 +39,7 @@ MAIL_SERVER = 'smtp.163.com'
 MAIL_FROM = '13501077762@163.com'
 MAIL_FROM_PASSWORD = 'yinglong123'
 MAIL_HEADER = '吉刮彩接口测试执行完成'
-MAIL_TO = 'zhangmin@wozhongla.com' # 网媒测试
-# MAIL_TO = 'liulei@kong.net'
+MAIL_TO = 'gaoyinglong@kong.net'
 
 # Mysql配置
 TEST_MYSQL_CONFIG = {'host': '192.168.0.224', 'port': 3306, 'user': 'root', 'password': '111111'}
@@ -62,4 +59,7 @@ TEST_HEAD_PIC = 'https://pic.dawang.tv/files/images/heads/2a/22/2017070521314166
 # TEST_USER_NAME = "ZBJKCdw_22017190"
 # TEST_NICKNAME = '渔夫垂钓翁'
 # TEST_HEAD_PIC = 'https://pic.t.dwtv.tv/files/images/heads/c8/cf/20180320144540859.jpg'
-TEST_SOURCE = 1
+DW_SOURCE_ID = 1
+DW_ROOM_ID = '110101'
+
+MT_ROOM_ID = '110110'
