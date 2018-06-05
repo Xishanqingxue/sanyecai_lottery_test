@@ -66,7 +66,7 @@ class BaseApi(object):
         request_data = self.format_param(data)
         logger.info('Data:{0}'.format(request_data))
         s = requests.session()
-        self.response = s.get(url=self.api_url(), params=request_data, headers=self.headers)
+        self.response = s.get(url=self.api_url(), params=request_data, headers=self.headers,verify=False)
         logger.info('Headers:{0}'.format(self.response.request.headers))
         logger.info('Response:{0}'.format(self.response.text))
         return self.response
@@ -80,7 +80,7 @@ class BaseApi(object):
         request_data = self.format_param(data)
         logger.info('Data:{0}'.format(request_data))
         s = requests.session()
-        self.response = s.post(url=self.api_url(), data=request_data, headers=self.headers)
+        self.response = s.post(url=self.api_url(), data=request_data, headers=self.headers,verify=False)
         logger.info('Headers:{0}'.format(self.response.request.headers))
         logger.info('Response:{0}'.format(self.response.text))
         return self.response

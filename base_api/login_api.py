@@ -22,7 +22,7 @@ class LoginApi(BaseApi):
             data = {'unionId': unionID, 'source': source, 'nickname': nickname, 'sign': None,
                     'head_pic': head_pic}
             logger.info('Data:{0}'.format(data))
-            self.response = requests.get(url=self.api_url(), params=data, headers=settings.API_HEADERS)
+            self.response = requests.get(url=self.api_url(), params=data, headers=settings.API_HEADERS,verify=False)
             logger.info('Response:{0}'.format(self.response.content))
             return self.response
         else:
@@ -32,7 +32,7 @@ class LoginApi(BaseApi):
             data = {'unionId': unionID, 'source': source, 'nickname': nickname, 'sign': sign_format,
                     'head_pic': head_pic}
             logger.info('Data:{0}'.format(data))
-            self.response = requests.get(url=self.api_url(), params=data, headers=settings.API_HEADERS)
+            self.response = requests.get(url=self.api_url(), params=data, headers=settings.API_HEADERS,verify=False)
             logger.info('Response:{0}'.format(self.response.content))
             if only_token:
                 headers = self.response.headers
