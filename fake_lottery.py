@@ -5,7 +5,7 @@ import random
 import pymysql.cursors
 
 
-def execute(sql, params=None, db='video_lottery', is_fetchone=False):
+def execute(sql, params=None, db='video_lottery'):
     # Connect to the database
     connection = pymysql.connect(host='192.168.0.224',
                                  port=3306,
@@ -18,10 +18,7 @@ def execute(sql, params=None, db='video_lottery', is_fetchone=False):
     try:
         with connection.cursor() as cursor:
             cursor.execute(sql, params)
-            if is_fetchone:
-                return cursor.fetchone()
-            else:
-                return cursor.fetchall()
+            return cursor.fetchall()
     except:
         connection.rollback()
     finally:
@@ -40,25 +37,40 @@ if __name__ == '__main__':
             detail_id = detail_id_list[0]
             detail_id_max = detail_id_list[-1]
 
-            amount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 20, 25,
-                      30, 50, 60, 80, 90, 100, 120, 150, 180, 200, 300, 350, 500, 800,
-                      1000, 1200, 1500, 3000, 5000]
             while detail_id < detail_id_max + 1:
+                random_num = random.randint(1,100)
+                if random_num < 40:
+                    amount = 0
+                elif 40 <= random_num < 50:
+                    amount = 40
+                elif 50 <= random_num < 60:
+                    amount = 60
+                elif 60 <= random_num < 70:
+                    amount = 90
+                elif 70 <= random_num < 80:
+                    amount = 150
+                elif 80 <= random_num < 90:
+                    amount = 200
+                elif 90 <= random_num < 95:
+                    amount = 500
+                elif 95 <= random_num:
+                    amount = 1000
+
                 if num == 0:
                     time.sleep(10)
                 ticket_no = int(str(detail_id) + str(random.randint(11111, 99999)))
-                index = random.randint(0, len(amount) - 1)
-                am = amount[index]
-                if am == 0:
+
+                if amount == 0:
                     bouns_status = 0
                 else:
                     bouns_status = 1
-                response = requests.get(
-                    url='http://111.200.217.42:8386/video-lottery-base_api/notify/bonus?amount={0}&deviceId=11&ticketNo={1}&detailId={2}&bonusStatus={3}'.format(
-                        am, ticket_no, detail_id, bouns_status))
-                execute("update lot_order_detail set route='http://www.taopic.com/uploads/allimg/140320/235013-14032020515270.jpg',is_upload=1 where id=%s",params=(detail_id))
+
+                lottery_url = 'http://111.200.217.42:8386/video-lottery-base_api/notify/bonus?amount={0}&deviceId=11&ticketNo={1}&detailId={2}&bonusStatus={3}'.format(amount, ticket_no, detail_id, bouns_status)
+                response = requests.get(url=lottery_url)
+                image_url = 'http://www.taopic.com/uploads/allimg/140320/235013-14032020515270.jpg'
+                execute("update lot_order_detail set route=%s,is_upload=1 where id=%s",params=(image_url,detail_id))
                 print(time.strftime("%Y-%m-%d %H:%M:%S"))
-                print('detail_id:' + str(detail_id), '   ticket_no:' + str(ticket_no), '   amount:' + str(am))
+                print('detail_id:' + str(detail_id), '   ticket_no:' + str(ticket_no), '   amount:' + str(amount))
                 print(json.loads(response.content))
                 print('----------------------华丽的分割线-------------------------')
                 time.sleep(3)
