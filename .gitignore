@@ -108,3 +108,4 @@ spike*.py
 
 *.html
 *.log
+settings_local.py
